@@ -1,6 +1,6 @@
 #!/bin/bash
 # Livox Mid 360 - Universal Launcher
-# Choose between Open3D and RViz visualization
+# Choose between multiple visualization modes
 
 cd "$(dirname "$0")"
 
@@ -9,9 +9,9 @@ echo "╔═══════════════════════�
 echo "║         Livox Mid 360 - Choose Visualization Mode            ║"
 echo "╚═══════════════════════════════════════════════════════════════╝"
 echo ""
-echo "  1) RViz (Professional visualization) - RECOMMENDED"
-echo "  2) Open3D (Simple 3D mapper)"
-echo "  3) Python Packet Sniffer (Debug mode)"
+echo "  1) Open3D 3D Mapper (RECOMMENDED - most reliable)"
+echo "  2) ROS 2 Driver (Data streaming, may require RViz setup)"
+echo "  3) Python Packet Sniffer (Debug UDP packets)"
 echo ""
 echo -n "Select option (1-3): "
 read -r choice
@@ -19,15 +19,15 @@ read -r choice
 case $choice in
     1)
         echo ""
-        echo "Starting ROS 2 + RViz..."
+        echo "Starting Livox with Open3D real-time 3D visualization..."
         echo ""
-        exec ./livox_rviz_launcher.sh
+        exec ./livox_launcher.sh
         ;;
     2)
         echo ""
-        echo "Starting Livox with Open3D..."
+        echo "Starting ROS 2 Livox driver..."
         echo ""
-        exec ./livox_launcher.sh
+        exec ./livox_ros2.sh
         ;;
     3)
         echo ""

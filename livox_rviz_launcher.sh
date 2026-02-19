@@ -1,76 +1,62 @@
 #!/bin/bash
-# Livox + ROS 2 + RViz Launcher
-# Streams Livox data to ROS 2 and visualizes in RViz
+# Livox + ROS 2 + RViz Launcher (Fixed Environment)
+# Clean ROS 2 setup to avoid venv interference
 
-set -e
-cd "$(dirname "$0")"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)" || exit 1
+cd "$SCRIPT_DIR" || exit 1
 
 echo "╔════════════════════════════════════════════════════════════╗"
 echo "║  Livox Mid 360 + ROS 2 + RViz                             ║"
 echo "╚════════════════════════════════════════════════════════════╝"
 echo ""
 
-# Try both Humble and Rolling ROS 2 installations
-if [ -f /opt/ros/humble/setup.bash ]; then
-    ROS_DISTRO="humble"
-    ROS_SETUP="/opt/ros/humble/setup.bash"
-elif [ -f /opt/ros/rolling/setup.bash ]; then
-    ROS_DISTRO="rolling"
+# Find ROS 2 installation
+ROS_SETUP=""
+if [ -f /opt/ros/rolling/setup.bash ]; then
     ROS_SETUP="/opt/ros/rolling/setup.bash"
+    ROS_DISTRO="rolling"
+elif [ -f /opt/ros/humble/setup.bash ]; then
+    ROS_SETUP="/opt/ros/humble/setup.bash"
+    ROS_DISTRO="humble"
 else
-    echo "❌ ROS 2 not found at /opt/ros/"
-    echo "   Install ROS 2 first: https://docs.ros.org/en/humble/Installation.html"
+    echo "❌ ROS 2 not found! Tried /opt/ros/{rolling,humble}"
     exit 1
 fi
 
 echo "Using ROS 2 $ROS_DISTRO"
 echo ""
 
-# Source ROS 2 environment
-source "$ROS_SETUP"
-
-# Start SDK in background
+# Start Livox SDK (doesn't need ROS 2)
 echo "Starting Livox SDK..."
 ./Livox-SDK2/build/samples/livox_lidar_quick_start/livox_lidar_quick_start \
-    ./Livox-SDK2/samples/livox_lidar_quick_start/mid360_config.json &
+    ./Livox-SDK2/samples/livox_lidar_quick_start/mid360_config.json > /tmp/livox_sdk.log 2>&1 &
 SDK_PID=$!
 echo "✓ SDK started (PID: $SDK_PID)"
+sleep 3
+
+# Start ROS 2 driver and RViz in clean ROS 2 environment
+echo "Starting ROS 2 driver and RViz..."
+exec bash << ROSSHELL
+source "$ROS_SETUP"
+source "\$HOME/ros2_livox_ws/install/setup.bash"
+
+echo "✓ ROS 2 environment sourced"
+
+# Start driver
+echo "Starting Livox ROS 2 driver..."
+ros2 run livox_ros2_python_driver livox_driver_node > /tmp/livox_driver.log 2>&1 &
+DRIVER_PID=\$!
+echo "✓ Driver started (PID: \$DRIVER_PID)"
 sleep 2
 
-# Start ROS 2 driver
-echo "Starting ROS 2 Livox driver..."
-source ~/ros2_livox_ws/install/setup.bash
-ros2 run livox_ros2_python_driver livox_driver_node &
-DRIVER_PID=$!
-echo "✓ Driver started (PID: $DRIVER_PID)"
-sleep 2
-
-# Start RViz with Livox configuration
+# Start RViz
 echo "Starting RViz..."
-if [ -f ./livox_rviz_config.rviz ]; then
-    rviz2 -d ./livox_rviz_config.rviz &
+if [ -f "$SCRIPT_DIR/livox_rviz_config.rviz" ]; then
+    rviz2 -d "$SCRIPT_DIR/livox_rviz_config.rviz"
 else
-    rviz2 &
+    rviz2
 fi
-RVIZ_PID=$!
-echo "✓ RViz started (PID: $RVIZ_PID)"
-echo ""
 
-echo "╔════════════════════════════════════════════════════════════╗"
-echo "║  All systems active:                                       ║"
-echo "║  • Livox SDK (PID $SDK_PID)                       ║"
-echo "║  • ROS 2 Driver (PID $DRIVER_PID)                   ║"
-echo "║  • RViz (PID $RVIZ_PID)                           ║"
-echo "║                                                            ║"
-echo "║  In RViz:                                                  ║"
-echo "║  1. Add PointCloud2 display                               ║"
-echo "║  2. Set Topic to: /livox/lidar                            ║"
-echo "║  3. Set Fixed Frame to: livox_frame                       ║"
-echo "║                                                            ║"
-echo "║  Press Ctrl+C to stop all services                        ║"
-echo "╚════════════════════════════════════════════════════════════╝"
-echo ""
-
-# Keep script alive and handle cleanup
-trap "echo 'Shutting down...'; kill $SDK_PID $DRIVER_PID $RVIZ_PID 2>/dev/null; exit" SIGINT SIGTERM
-wait
+# Cleanup
+kill $SDK_PID \$DRIVER_PID 2>/dev/null
+ROSSHELL
