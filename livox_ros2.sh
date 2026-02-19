@@ -10,38 +10,38 @@ echo "║  Livox Mid 360 + ROS 2 (Data Streaming)                   ║"
 echo "╚════════════════════════════════════════════════════════════╝"
 echo ""
 
-# Find ROS 2
+# Find ROS 2 (need rolling for ros2 CLI, but clean environment to avoid mixing)
 if [ -f /opt/ros/rolling/setup.bash ]; then
     ROS_SETUP="/opt/ros/rolling/setup.bash"
-elif [ -f /opt/ros/humble/setup.bash ]; then
-    ROS_SETUP="/opt/ros/humble/setup.bash"
 else
-    echo "❌ ROS 2 not found!"
+    echo "❌ ROS 2 rolling not found!"
     exit 1
 fi
 
-echo "Starting Livox SDK..."
-./Livox-SDK2/build/samples/livox_lidar_quick_start/livox_lidar_quick_start \
-    ./Livox-SDK2/samples/livox_lidar_quick_start/mid360_config.json > /tmp/sdk.log 2>&1 &
-SDK_PID=$!
-sleep 3
-
 echo "Starting ROS 2 Livox driver..."
+# Note: SDK quick_start is not needed - the driver itself binds to port 56301
 exec bash << 'SHELL'
-# Clean environment
-unset PYTHONPATH PYTHONHOME
-source /opt/ros/rolling/setup.bash 2>/dev/null || source /opt/ros/humble/setup.bash
-source ~/ros2_livox_ws/install/setup.bash
+# Completely isolate ROS 2 rolling from humble
+# Unset everything first
+unset ROS_DISTRO COLCON_PREFIX_PATH
 
-# Run driver in foreground
+# Source rolling and capture its environment
+source /opt/ros/rolling/setup.bash > /dev/null 2>&1
+source ~/ros2_livox_ws/install/setup.bash > /dev/null 2>&1
+
+# Now explicitly remove any humble paths from LD_LIBRARY_PATH and PYTHONPATH
+export LD_LIBRARY_PATH=$(echo "$LD_LIBRARY_PATH" | tr ':' '\n' | grep -v "/opt/ros/humble" | tr '\n' ':' | sed 's/:$//')
+export PYTHONPATH=$(echo "$PYTHONPATH" | tr ':' '\n' | grep -v "/opt/ros/humble" | tr '\n' ':' | sed 's/:$//')
+
 echo "✓ ROS 2 environment ready"
-echo "Driver publishing to: /livox/lidar (PointCloud2)"
+echo "Driver listening on UDP port 56301"
+echo "Driver publishing PointCloud2 to: /livox/lidar"
 echo ""
-echo "In another terminal, you can:"
-echo "  ros2 topic list"
+echo "In another terminal, run:"
+echo "  source /opt/ros/rolling/setup.bash"
+echo "  source ~/ros2_livox_ws/install/setup.bash"
 echo "  ros2 topic echo /livox/lidar"
-echo "  rviz2 -d ~/Desktop/GitHub/auto-flight/livox_rviz_config.rviz"
 echo ""
 
-ros2 run livox_ros2_python_driver livox_driver_node
+~/ros2_livox_ws/install/livox_ros2_python_driver/bin/livox_driver_node
 SHELL
