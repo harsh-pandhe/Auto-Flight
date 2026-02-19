@@ -1,0 +1,153 @@
+Panels:
+  - Class: rviz_common/Displays
+    Help Height: 78
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Global Options1
+        - /Status1
+        - /PointCloud21
+      Splitter Ratio: 0.5
+    Tree Height: 365
+  - Class: rviz_common/Selection
+    Name: Selection
+  - Class: rviz_common/Tool Properties
+    Expanded:
+      - /2D Goal Pose1
+      - /Publish Point1
+    Name: Tool Properties
+    Splitter Ratio: 0.588679
+  - Class: rviz_common/Views
+    Expanded:
+      - /Current View1
+    Name: Views
+    Splitter Ratio: 0.5
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 0.5
+      Class: rviz_common/Grid
+      Color: 160; 160; 164
+      Enabled: true
+      Line Style:
+        Line Width: 0.03
+        Value: Line
+      Name: Grid
+      Normal Cell Count: 0
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Plane: XY
+      Plane Cell Count: 10
+      Reference Frame: <Fixed Frame>
+      Value: true
+    - Class: rviz_common/TF
+      Enabled: true
+      Frame Timeout: 15
+      Frames:
+        All Enabled: true
+      Marker Scale: 1
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: false
+      Tree:
+        {}
+      Update Interval: 0
+      Value: true
+    - Alpha: 0.7
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: 0
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz_common/PointCloud2
+      Color: 200; 200; 200
+      Color Transformer: Intensity
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 255
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: PointCloud2
+      Position Tolerance: 0.1
+      Predefined Color Transformer: Intensity
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.01
+      Style: Flat Squares
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /livox/lidar
+      Transformation: data
+      Use Fixed Frame: false
+      Use rainbow: true
+      Value: true
+      Xyz Transformer: XYZ
+  Enabled: true
+  Global Options:
+    Background Color: 48; 48; 48
+    Fixed Frame: livox_frame
+    Frame Rate: 30
+  Name: root
+  Tools:
+    - Class: rviz_common/Interact
+      Hide Inactive Objects: true
+    - Class: rviz_common/MoveCamera
+    - Class: rviz_common/Select
+    - Class: rviz_common/FocusCamera
+    - Class: rviz_common/Measure
+      Class Name: rviz_common/Measure
+    - Class: rviz_plugins/PublishPoint
+      Single click publishing: true
+      Topic: /clicked_point
+    - Class: rviz_common/SetInitialPose
+      Theta std deviation: 0.26179938779914946
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /initialpose
+      X std deviation: 0.5
+      Y std deviation: 0.5
+    - Class: rviz_common/SetGoal
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        Filter size: 10
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /goal_pose
+  Visibility:
+    Grid: true
+    PointCloud2: true
+    TF: true
+    Value: true
+Window Geometry:
+  Displays:
+    collapsed: false
+  Height: 874
+  Hide Left Dock: false
+  Hide Right Dock: false
+  QMainWindow State: 000000ff00000000fd00000004000000000000034f0000034ffc0200000007fb0000001200530065006c0065006300740069006f006e00000001fc00000151000000490000004900fb0000001e0054006f006f006c002000500072006f0070006500720074006900650073000001fc0000004f000000490000004900fb000000120056006900650077007300000001fc00000162000000ad000000ad00fb000000140049006e0066006f0072006d00610074006900ef00000215000000d300000000000000000fb0000000a00500072006f0070006500720074006900650073000000043a000000c80000006900ffffff000000030000050400000058fc0100000001fb0000001200440069007300700006c00610079007300000001fc00000000000005040000000000000400000004000000040fc00000000fc00000054fc00000000000000f4000000000100001a00000002fc0000000000ffffffff0000000000ffffffff000000000000000000000004000000040000000800000008fc00000001000000020000000100000002000000020fc00000000fc0000004600000004000000040000007c000000feff0000009600000002
+  Selection:
+    collapsed: false
+  Tool Properties:
+    collapsed: false
+  Views:
+    collapsed: false
+  Width: 1340
+  X: 0
+  Y: 35
