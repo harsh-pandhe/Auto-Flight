@@ -2,3 +2,10 @@
 .vscode/
 *.tlog
 *.tlog.raw
+venv/
+.venv/
+Livox-SDK2/
+__pycache__/
+*.pyc
+DepthCamera_*.json
+DepthCapture_*.png
