@@ -27,7 +27,8 @@ case $choice in
         echo ""
         echo "Starting ROS 2 Livox driver..."
         echo ""
-        exec ./livox_ros2.sh
+        # Source the setup script and start interactive shell with ROS 2 environment
+        exec bash -c 'source ./livox_ros2.sh; exec bash'
         ;;
     3)
         echo ""
