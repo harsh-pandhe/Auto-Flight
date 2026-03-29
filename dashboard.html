@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ASCEND Mission Control v2</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root { --neon-green: #0f0; --bg-dark: #0a0a0a; --panel-bg: #151515; }
+        body { font-family: 'Segoe UI', monospace; background: var(--bg-dark); color: var(--neon-green); margin: 20px; }
+        .grid-container { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+        .panel { background: var(--panel-bg); border: 1px solid #333; padding: 15px; border-radius: 8px; }
+        .stat { font-size: 24px; font-weight: bold; color: #fff; }
+        #console { height: 150px; overflow-y: scroll; background: #000; color: #aaa; font-size: 12px; padding: 10px; margin-top: 10px; border: 1px solid #444; }
+        button { background: #222; color: #0f0; border: 1px solid #0f0; padding: 8px 15px; cursor: pointer; margin: 5px; border-radius: 4px; }
+        button:hover { background: #0f0; color: #000; }
+        .danger { border-color: #f44; color: #f44; }
+    </style>
+</head>
+<body>
+    <h1>🚀 ASCEND MISSION CONTROL</h1>
+
+    <div class="grid-container">
+        <div class="panel">
+            <h3>TELEMETRY</h3>
+            <div>ALTITUDE: <span id="alt" class="stat">0.0</span> m</div>
+            <div>HEADING: <span id="hdg" class="stat">0</span>°</div>
+            <div>BATTERY: <span id="batt" class="stat">0.0</span> V</div>
+            <canvas id="altChart" style="height:150px;"></canvas>
+        </div>
+
+        <div class="panel">
+            <h3>SYSTEM STATE</h3>
+            <div>MODE: <span id="mode" class="stat">---</span></div>
+            <div>ARMED: <span id="armed" class="stat">DISARMED</span></div>
+            <hr border="1" color="#333">
+            <h3>COMMANDS</h3>
+            <button onclick="send('SET_MODE', {mode: 'GUIDED'})">GUIDED</button>
+            <button onclick="send('SET_MODE', {mode: 'LOITER'})">LOITER</button>
+            <br>
+            <button class="danger" onclick="send('ARM')">FORCE ARM</button>
+            <button onclick="send('TAKEOFF', {alt: 2.5})">TAKEOFF (2.5m)</button>
+            <button onclick="send('DISARM')">DISARM</button>
+        </div>
+
+        <div class="panel">
+            <h3>FLIGHT LOG</h3>
+            <div id="console"></div>
+        </div>
+    </div>
+
+    <script>
+        const socket = io('http://' + '10.89.182.181' + ':5000');
+        const ctx = document.getElementById('altChart').getContext('2d');
+        const altChart = new Chart(ctx, {
+            type: 'line',
+            data: { labels: [], datasets: [{ label: 'Altitude', data: [], borderColor: '#0f0', tension: 0.1 }] },
+            options: { responsive: true, scales: { x: { display: false }, y: { grid: { color: '#222' } } } }
+        });
+
+        socket.on('vfr_data', d => {
+            document.getElementById('alt').innerText = d.alt;
+            document.getElementById('hdg').innerText = d.hdg;
+            // Update Chart
+            altChart.data.labels.push("");
+            altChart.data.datasets[0].data.push(d.alt);
+            if(altChart.data.data > 20) { altChart.data.labels.shift(); altChart.data.datasets[0].data.shift(); }
+            altChart.update();
+        });
+
+        socket.on('sys_status', d => {
+            document.getElementById('batt').innerText = d.voltage;
+        });
+
+        socket.on('state', d => {
+            document.getElementById('mode').innerText = d.mode;
+            document.getElementById('armed').innerText = d.armed ? "ARMED (LIVE)" : "DISARMED";
+            document.getElementById('armed').style.color = d.armed ? "#f44" : "#0f0";
+        });
+
+        socket.on('console', d => {
+            const c = document.getElementById('console');
+            c.innerHTML += `<div>[${new Date().toLocaleTimeString()}] ${d.text}</div>`;
+            c.scrollTop = c.scrollHeight;
+        });
+
+        function send(type, extra = {}) {
+            socket.emit('command', {type, ...extra});
+        }
+    </script>
+</body>
+</html>

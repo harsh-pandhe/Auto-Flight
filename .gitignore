@@ -9,3 +9,39 @@ __pycache__/
 *.pyc
 DepthCamera_*.json
 DepthCapture_*.png
+
+# Python build/test artifacts
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node artifacts
+node_modules/
+
+# ROS/colcon build outputs
+build/
+install/
+log/
+workspace/
+
+# Local environment files
+.env
+
+# Flight and telemetry data dumps
+archive/
+data/
+flight_data/
+flight_data_02/
+flight log /
+*.csv
+
+# IDE/system artifacts
+.DS_Store
+
+# Nested/auxiliary repos kept local
+azzy/
+src/livox_ros_driver2/
+
+# Local placeholder module stubs
+rclpy
