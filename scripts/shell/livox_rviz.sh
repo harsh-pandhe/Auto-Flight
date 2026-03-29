@@ -8,7 +8,8 @@ echo "╚═══════════════════════�
 echo ""
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-cd "$SCRIPT_DIR"
+REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+cd "$REPO_ROOT"
 
 # Check what's available
 if command -v rviz2 >/dev/null 2>&1; then
@@ -62,8 +63,8 @@ if [ $USE_RVIZ -eq 1 ]; then
     echo "✓ Driver running"
     echo "Launching RViz with Livox config..."
     
-    if [ -f "$SCRIPT_DIR/livox_rviz_config.rviz" ]; then
-        rviz2 -d "$SCRIPT_DIR/livox_rviz_config.rviz"
+    if [ -f "$REPO_ROOT/config/livox_rviz_config.rviz" ]; then
+        rviz2 -d "$REPO_ROOT/config/livox_rviz_config.rviz"
     else
         rviz2
     fi
@@ -76,17 +77,17 @@ else
     echo "Controls: Left=Rotate, Right=Pan, Scroll=Zoom, Q=Quit"
     echo ""
     
-    source venv/bin/activate 2>/dev/null || echo "Warning: venv not activated"
+    source "$REPO_ROOT/venv/bin/activate" 2>/dev/null || echo "Warning: venv not activated"
     
     # Start SDK in background
-    ./Livox-SDK2/build/samples/livox_lidar_quick_start/livox_lidar_quick_start \
-        ./Livox-SDK2/samples/livox_lidar_quick_start/mid360_config.json >/dev/null 2>&1 &
+    "$REPO_ROOT/Livox-SDK2/build/samples/livox_lidar_quick_start/livox_lidar_quick_start" \
+        "$REPO_ROOT/Livox-SDK2/samples/livox_lidar_quick_start/mid360_config.json" >/dev/null 2>&1 &
     
     SDK_PID=$!
     sleep 2
     
     # Start visualization
-    python3 livox_3d_mapper.py
+    python3 "$REPO_ROOT/scripts/python/livox_3d_mapper.py"
     
     # Cleanup
     kill $SDK_PID 2>/dev/null

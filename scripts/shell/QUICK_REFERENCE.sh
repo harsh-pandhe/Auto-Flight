@@ -8,12 +8,12 @@
 
 # Start Open3D visualization (easiest)
 cd ~/Desktop/GitHub/auto-flight
-./livox.sh
+./scripts/shell/livox.sh
 # Select: 1
 
 # Start ROS 2 driver with environment ready
 cd ~/Desktop/GitHub/auto-flight
-./livox_ros2.sh
+source ./scripts/shell/livox_ros2.sh
 
 # Then in same terminal, try:
 ros2 topic list
@@ -63,7 +63,7 @@ tail -50 /tmp/livox_driver.log
 
 # Start packet sniffer (via menu)
 cd ~/Desktop/GitHub/auto-flight
-./livox.sh
+./scripts/shell/livox.sh
 # Select: 3
 
 # Check if Livox hardware is reachable
@@ -88,14 +88,14 @@ pkill -9 -f "python3"
 # ============================================
 
 # Main scripts
-~/Desktop/GitHub/auto-flight/livox.sh                 # Main menu
-~/Desktop/GitHub/auto-flight/livox_ros2.sh           # ROS 2 driver launcher
-~/Desktop/GitHub/auto-flight/ros2_console.sh         # ROS 2 data monitor
-~/Desktop/GitHub/auto-flight/livox_launcher.sh       # Open3D launcher
+~/Desktop/GitHub/auto-flight/scripts/shell/livox.sh                 # Main menu
+~/Desktop/GitHub/auto-flight/scripts/shell/livox_ros2.sh           # ROS 2 driver launcher
+~/Desktop/GitHub/auto-flight/scripts/shell/ros2_console.sh         # ROS 2 data monitor
+~/Desktop/GitHub/auto-flight/scripts/shell/livox_launcher.sh       # Open3D launcher
 
 # Source code
-~/Desktop/GitHub/auto-flight/livox_3d_mapper.py      # Open3D visualization
-~/Desktop/GitHub/auto-flight/livox_packet_sniffer.py # UDP debugger
+~/Desktop/GitHub/auto-flight/scripts/python/livox_3d_mapper.py      # Open3D visualization
+~/Desktop/GitHub/auto-flight/scripts/python/livox_packet_sniffer.py # UDP debugger
 
 # ROS 2 workspace
 ~/ros2_livox_ws/                                      # ROS 2 workspace root
@@ -141,7 +141,7 @@ source ~/ros2_livox_ws/install/setup.bash
 Fix: Kill existing processes
 pkill -9 -f "livox"
 sleep 2
-./livox.sh
+./scripts/shell/livox.sh
 
 # Issue: No point cloud data
 Check:

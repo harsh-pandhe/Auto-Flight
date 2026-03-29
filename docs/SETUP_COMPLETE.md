@@ -7,7 +7,7 @@ Your comprehensive telemetry visualization system is ready. Here's what was crea
 | File | Purpose |
 |------|---------|
 | `telemetry_analyzer.py` | Main Streamlit dashboard (interactive web app) |
-| `run_analyzer.sh` | Auto-setup launcher script |
+| `scripts/shell/run_analyzer.sh` | Auto-setup launcher script |
 | `QUICKSTART.md` | 30-second getting started guide |
 | `TELEMETRY_ANALYZER.md` | Full documentation |
 | `sample_flight_log.csv` | Sample data for testing |
@@ -53,7 +53,7 @@ Your comprehensive telemetry visualization system is ready. Here's what was crea
 #### **Option 1: Quick Launch** (Recommended)
 ```bash
 cd /home/iic/Desktop/GitHub/drone-project
-./run_analyzer.sh
+./scripts/shell/run_analyzer.sh
 ```
 
 #### **Option 2: Direct Command**
@@ -96,7 +96,7 @@ Already installed:
 ```
 /home/iic/Desktop/GitHub/drone-project/
 ├── telemetry_analyzer.py         ← Main app
-├── run_analyzer.sh                ← Launcher
+├── scripts/shell/run_analyzer.sh  ← Launcher
 ├── sample_flight_log.csv          ← Test data
 ├── QUICKSTART.md                  ← This file
 ├── TELEMETRY_ANALYZER.md          ← Full docs
@@ -118,7 +118,7 @@ Already installed:
 
 ### 🎓 Next Actions
 
-1. **Try it now** - Run `./run_analyzer.sh` in 30 seconds
+1. **Try it now** - Run `./scripts/shell/run_analyzer.sh` in 30 seconds
 2. **Upload a flight log** - Use the sidebar file selector
 3. **Explore all 7 sections** - Get familiar with data visualization
 4. **Generate new data** - `python src/ascend_blackbox.py`
@@ -145,7 +145,7 @@ Already installed:
 
 **Your command (pick one):**
 ```bash
-./run_analyzer.sh
+./scripts/shell/run_analyzer.sh
 # OR
 streamlit run telemetry_analyzer.py
 ```

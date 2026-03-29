@@ -2,7 +2,9 @@
 # Livox Mid 360 - Universal Launcher
 # Choose between multiple visualization modes
 
-cd "$(dirname "$0")"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+cd "$REPO_ROOT"
 
 echo ""
 echo "╔═══════════════════════════════════════════════════════════════╗"
@@ -21,25 +23,25 @@ case $choice in
         echo ""
         echo "Starting Livox with Open3D real-time 3D visualization..."
         echo ""
-        exec ./livox_launcher.sh
+        exec "$REPO_ROOT/scripts/shell/livox_launcher.sh"
         ;;
     2)
         echo ""
         echo "Starting ROS 2 Livox driver..."
         echo ""
         # Source the setup script and start interactive shell with ROS 2 environment
-        exec bash -c 'source ./livox_ros2.sh; exec bash'
+        exec bash -c "source '$REPO_ROOT/scripts/shell/livox_ros2.sh'; exec bash"
         ;;
     3)
         echo ""
         echo "Starting Livox SDK and Packet Sniffer..."
         echo ""
-        ./Livox-SDK2/build/samples/livox_lidar_quick_start/livox_lidar_quick_start \
-            ./Livox-SDK2/samples/livox_lidar_quick_start/mid360_config.json &
+        "$REPO_ROOT/Livox-SDK2/build/samples/livox_lidar_quick_start/livox_lidar_quick_start" \
+            "$REPO_ROOT/Livox-SDK2/samples/livox_lidar_quick_start/mid360_config.json" &
         SDK_PID=$!
         sleep 2
-        source venv/bin/activate
-        python3 livox_packet_sniffer.py
+        source "$REPO_ROOT/venv/bin/activate"
+        python3 "$REPO_ROOT/scripts/python/livox_packet_sniffer.py"
         kill $SDK_PID 2>/dev/null
         ;;
     *)

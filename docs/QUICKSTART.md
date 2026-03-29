@@ -7,7 +7,7 @@ Your telemetry visualization dashboard is ready! Here's how to get started immed
 ### Option 1: Using the Launcher Script
 ```bash
 cd /home/iic/Desktop/GitHub/drone-project
-./run_analyzer.sh
+./scripts/shell/run_analyzer.sh
 ```
 
 ### Option 2: Direct Command
@@ -169,7 +169,7 @@ gatherUsageStats = false
 
 ## 🎯 Next Steps
 
-1. **Try it now**: `./run_analyzer.sh` or `streamlit run telemetry_analyzer.py`
+1. **Try it now**: `./scripts/shell/run_analyzer.sh` or `streamlit run tools/telemetry_analyzer.py`
 2. **Upload a flight log**: Use sidebar file selector
 3. **Explore sections**: Navigate through all 7 analysis tabs
 4. **Customize**: Edit `telemetry_analyzer.py` to add custom metrics

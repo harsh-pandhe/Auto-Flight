@@ -5,7 +5,7 @@
 ### Option 1: Open3D 3D Visualization (Recommended)
 ```bash
 cd ~/Desktop/GitHub/auto-flight
-./livox.sh
+./scripts/shell/livox.sh
 # Select: 1
 ```
 - Real-time interactive 3D point cloud
@@ -15,7 +15,7 @@ cd ~/Desktop/GitHub/auto-flight
 ### Option 2: ROS 2 Data Streaming
 ```bash
 cd ~/Desktop/GitHub/auto-flight
-./livox_ros2.sh
+source ./scripts/shell/livox_ros2.sh
 ```
 
 Then in the **same terminal** (ROS 2 environment is ready):
@@ -39,7 +39,7 @@ cd ~/Desktop/GitHub/auto-flight
 ### Option 3: Packet Sniffer (Debugging)
 ```bash
 cd ~/Desktop/GitHub/auto-flight
-./livox.sh
+./scripts/shell/livox.sh
 # Select: 3
 ```
 - Captures and displays raw UDP packets
@@ -80,8 +80,8 @@ cd ~/Desktop/GitHub/auto-flight
 ├── livox_launcher.sh           # Open3D visualization launcher
 ├── livox_ros2.sh              # ROS 2 driver launcher
 ├── ros2_console.sh            # ROS 2 data monitoring helper
-├── livox_3d_mapper.py         # Open3D visualization code
-├── livox_packet_sniffer.py    # UDP packet debugger
+├── scripts/python/livox_3d_mapper.py      # Open3D visualization code
+├── scripts/python/livox_packet_sniffer.py # UDP packet debugger
 ├── Livox-SDK2/                # Vendor SDK (compiled)
 ├── venv/                      # Python virtual environment
 └── USAGE.md                   # This file
@@ -106,7 +106,7 @@ Or use the provided launchers which do this automatically.
 ```bash
 pkill -9 -f "livox"
 sleep 2
-./livox.sh  # Try again
+./scripts/shell/livox.sh  # Try again
 ```
 
 ### Issue: No point cloud data in ROS 2

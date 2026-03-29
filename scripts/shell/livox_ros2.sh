@@ -1,7 +1,7 @@
 #!/bin/bash
 # Livox + ROS 2 Quick Setup
 # 
-# USAGE: source ./livox_ros2.sh
+# USAGE: source scripts/shell/livox_ros2.sh
 #
 # This script:
 # 1. Starts the Livox ROS 2 driver in background
@@ -13,11 +13,11 @@ if [ "${ZSH_EVAL_CONTEXT:-}" = "toplevel" ]; then
     echo "⚠️  Error: This script must be SOURCE'd, not executed!"
     echo ""
     echo "Correct usage:"
-    echo "  source ./livox_ros2.sh"
+    echo "  source scripts/shell/livox_ros2.sh"
     echo ""
     echo "Wrong usage:"
-    echo "  ./livox_ros2.sh"
-    echo "  bash ./livox_ros2.sh"
+    echo "  ./scripts/shell/livox_ros2.sh"
+    echo "  bash scripts/shell/livox_ros2.sh"
     echo ""
     return 127
 fi
@@ -25,11 +25,11 @@ if [ -n "${BASH_SOURCE:-}" ] && [ "${BASH_SOURCE[0]}" = "${0}" ]; then
     echo "⚠️  Error: This script must be SOURCE'd, not executed!"
     echo ""
     echo "Correct usage:"
-    echo "  source ./livox_ros2.sh"
+    echo "  source scripts/shell/livox_ros2.sh"
     echo ""
     echo "Wrong usage:"
-    echo "  ./livox_ros2.sh"
-    echo "  bash ./livox_ros2.sh"
+    echo "  ./scripts/shell/livox_ros2.sh"
+    echo "  bash scripts/shell/livox_ros2.sh"
     echo ""
     exit 127
 fi
@@ -46,6 +46,7 @@ if [ ! -f /opt/ros/rolling/setup.bash ] && [ ! -f /opt/ros/rolling/setup.zsh ]; 
 fi
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 DRIVER_LOG="/tmp/livox_driver.log"
 rm -f "$DRIVER_LOG"
 
@@ -106,9 +107,9 @@ echo ""
 echo "Ready for ROS 2 commands. Try:"
 echo "  ros2 topic list              # List all topics"
 echo "  ros2 topic echo /livox/lidar  # Stream point cloud data"
-echo "  python3 livox_csv_recorder.py --output flight_data.csv --max-frames 300"
+echo "  python3 scripts/python/livox_csv_recorder.py --output flight_data.csv --max-frames 300"
 echo ""
 echo "In another terminal:"
-echo "  source ~/Desktop/GitHub/auto-flight/livox_ros2.sh"
+echo "  source ~/Desktop/GitHub/auto-flight/scripts/shell/livox_ros2.sh"
 echo "  ros2 topic echo /livox/lidar  # View data from second shell"
 echo ""

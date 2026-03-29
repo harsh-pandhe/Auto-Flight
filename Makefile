@@ -56,7 +56,8 @@ check-conn:
 docs:
 	@echo "Documentation files:"
 	@echo "- README.md (this directory)"
-	@echo "- SETUP.md (hardware and software setup)"
-	@echo "- CONTRIBUTING.md (development guidelines)"
+	@echo "- docs/SETUP.md (hardware and software setup)"
+	@echo "- docs/root/CONTRIBUTING.md (development guidelines)"
+	@echo "- docs/root/USAGE.md (operational usage)"
 
 .DEFAULT_GOAL := help

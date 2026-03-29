@@ -4,6 +4,10 @@
 
 set -e
 
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+cd "$REPO_ROOT"
+
 echo "🚁 ASCEND Telemetry Analyzer"
 echo "=================================="
 
@@ -76,4 +80,4 @@ echo ""
 echo "Press Ctrl+C to stop"
 echo ""
 
-streamlit run telemetry_analyzer.py --logger.level=warning
+streamlit run tools/telemetry_analyzer.py --logger.level=warning

@@ -11,7 +11,7 @@ The system Python had installation restrictions, so I set up a dedicated virtual
 ### **Option 1: Use the Launcher Script** (Recommended)
 ```bash
 cd /home/iic/Desktop/GitHub/drone-project
-./run_analyzer.sh
+./scripts/shell/run_analyzer.sh
 ```
 
 The script will:
@@ -79,7 +79,7 @@ streamlit run telemetry_analyzer.py
 Once the venv exists, you just need:
 ```bash
 cd /home/iic/Desktop/GitHub/drone-project
-./run_analyzer.sh
+./scripts/shell/run_analyzer.sh
 ```
 
 Or if you prefer manual:
@@ -101,7 +101,7 @@ streamlit run telemetry_analyzer.py
 **You're all set!** Try running it now:
 
 ```bash
-./run_analyzer.sh
+./scripts/shell/run_analyzer.sh
 ```
 
 The dashboard will open at: **http://localhost:8501** 🚁📊

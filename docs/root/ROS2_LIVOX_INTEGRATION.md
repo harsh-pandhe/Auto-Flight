@@ -9,7 +9,7 @@ This document describes the ROS 2 integration for the Livox Mid 360 LiDAR on Ubu
 - **Python Mapper**: Working 3D point cloud visualization using Open3D
   - Parses Livox SDK2 UDP Ethernet packets
   - Renders real-time point cloud with height-based coloring
-  - Located: `livox_3d_mapper.py`
+  - Located: `scripts/python/livox_3d_mapper.py`
   
 - **Hardware Connection**: Stable UDP communication
   - Livox at IP: 192.168.1.199
@@ -90,7 +90,7 @@ ros2 run livox_ros2_python_driver livox_driver_node
 ```bash
 cd ~/Desktop/GitHub/auto-flight
 source venv/bin/activate
-python3 livox_3d_mapper.py
+python3 scripts/python/livox_3d_mapper.py
 ```
 
 ## Network Configuration
@@ -130,7 +130,7 @@ cd ~/Desktop/GitHub/auto-flight/Livox-SDK2/build
 **Solution**: Verify network configuration
 ```bash
 # Sniffer tool to check packet arrival
-python3 livox_packet_sniffer.py
+python3 scripts/python/livox_packet_sniffer.py
 ```
 
 ## Future Integration

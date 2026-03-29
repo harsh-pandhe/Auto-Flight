@@ -3,7 +3,8 @@
 # Clean ROS 2 setup to avoid venv interference
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)" || exit 1
-cd "$SCRIPT_DIR" || exit 1
+REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)" || exit 1
+cd "$REPO_ROOT" || exit 1
 
 echo "╔════════════════════════════════════════════════════════════╗"
 echo "║  Livox Mid 360 + ROS 2 + RViz                             ║"
@@ -28,8 +29,8 @@ echo ""
 
 # Start Livox SDK (doesn't need ROS 2)
 echo "Starting Livox SDK..."
-./Livox-SDK2/build/samples/livox_lidar_quick_start/livox_lidar_quick_start \
-    ./Livox-SDK2/samples/livox_lidar_quick_start/mid360_config.json > /tmp/livox_sdk.log 2>&1 &
+"$REPO_ROOT/Livox-SDK2/build/samples/livox_lidar_quick_start/livox_lidar_quick_start" \
+    "$REPO_ROOT/Livox-SDK2/samples/livox_lidar_quick_start/mid360_config.json" > /tmp/livox_sdk.log 2>&1 &
 SDK_PID=$!
 echo "✓ SDK started (PID: $SDK_PID)"
 sleep 3
@@ -51,8 +52,8 @@ sleep 2
 
 # Start RViz
 echo "Starting RViz..."
-if [ -f "$SCRIPT_DIR/livox_rviz_config.rviz" ]; then
-    rviz2 -d "$SCRIPT_DIR/livox_rviz_config.rviz"
+if [ -f "$REPO_ROOT/config/livox_rviz_config.rviz" ]; then
+    rviz2 -d "$REPO_ROOT/config/livox_rviz_config.rviz"
 else
     rviz2
 fi

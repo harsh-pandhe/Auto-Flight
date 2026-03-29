@@ -8,7 +8,7 @@ The Drone Project is a comprehensive platform for autonomous quadcopter control,
 
 1.  **Launch the Telemetry Analyzer:**
     ```bash
-    ./scripts/run_analyzer.sh
+    ./scripts/shell/run_analyzer.sh
     ```
 2.  **Access the Dashboard:** Open `http://localhost:8501` in your browser.
 3.  **Explore Data:** Use the sidebar to load the included `data/sample_flight_log.csv`.
@@ -40,7 +40,8 @@ drone-project/
 ├── tools/          # Analysis and utility tools
 │   └── telemetry_analyzer.py # Streamlit Dashboard
 ├── scripts/        # Automation and launcher scripts
-│   └── run_analyzer.sh       # Telemetry app launcher
+│   ├── shell/                # Shell launchers and ROS/Livox helpers
+│   └── python/               # Standalone Python utility scripts
 ├── data/           # Telemetry logs and datasets
 └── tests/          # Unit and integration tests
 ```
@@ -86,7 +87,7 @@ python3 src/ascend_tui_v2.py
 
 ### Analyze Flight Logs
 ```bash
-./scripts/run_analyzer.sh
+./scripts/shell/run_analyzer.sh
 ```
 
 ---
@@ -104,7 +105,7 @@ Explore the `docs/` folder for detailed guides:
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please see **[CONTRIBUTING.md](CONTRIBUTING.md)** for development standards and pull request processes.
+Contributions are welcome! Please see **[CONTRIBUTING.md](docs/root/CONTRIBUTING.md)** for development standards and pull request processes.
 
 ## 📄 License
 
