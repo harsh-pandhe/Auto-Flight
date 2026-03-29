@@ -14,6 +14,10 @@ DATA = ROOT / "data"
 
 PATTERNS = [
     (re.compile(r"^telemetry_\d{8}_\d{6}\.csv$"), DATA / "telemetry"),
+    (re.compile(r"^telemetry_log_\d{8}_\d{6}\.csv$"), DATA / "telemetry"),
+    (re.compile(r"^stage\d+_telemetry_log\.csv$"), DATA / "telemetry"),
+    (re.compile(r"^ascend_flight_log(?: \(\d+\))?\.csv$"), DATA / "telemetry"),
+    (re.compile(r"^flight_data\.csv$"), DATA / "telemetry"),
     (re.compile(r"^events_\d{8}_\d{6}\.txt$"), DATA / "events"),
     (re.compile(r"^livox_pointcloud_\d{8}_\d{6}\.bin$"), DATA / "livox"),
     (re.compile(r"^livox_imu_\d{8}_\d{6}\.csv$"), DATA / "livox"),
